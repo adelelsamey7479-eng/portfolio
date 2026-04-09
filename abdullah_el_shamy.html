@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Abdullah El Shamy — Production Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#080807;--bg2:#0f0f0d;--surface:#161614;
+  --border:rgba(255,255,255,0.06);
+  --accent:#c8a96e;--accent2:#e8d5a3;--accent-glow:rgba(200,169,110,0.15);
+  --text:#eae8e1;--muted:#78766e;--dim:#2e2c28;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'DM Mono',monospace;font-size:13px;line-height:1.6;overflow-x:hidden;cursor:none;}
+
+/* GRAIN */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");opacity:.03;pointer-events:none;z-index:9000;}
+
+/* CUSTOM CURSOR */
+.cursor{width:6px;height:6px;background:var(--accent);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;mix-blend-mode:difference;transition:transform .08s;}
+.cursor-ring{width:32px;height:32px;border:1px solid rgba(200,169,110,.35);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transition:width .35s cubic-bezier(.23,1,.32,1),height .35s cubic-bezier(.23,1,.32,1),border-color .3s;}
+.cursor-ring.hover{width:52px;height:52px;border-color:var(--accent);}
+.cursor-ring.clicking{width:20px;height:20px;border-color:var(--accent);background:var(--accent-glow);}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:26px 64px;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);background:rgba(8,8,7,.65);border-bottom:1px solid var(--border);transition:border-color .4s;}
+nav.scrolled{border-bottom-color:rgba(255,255,255,.1);}
+.nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);}
+.nav-links{display:flex;gap:44px;list-style:none;}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:10px;letter-spacing:.18em;text-transform:uppercase;transition:color .3s;position:relative;}
+.nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--accent);transition:width .3s;}
+.nav-links a:hover{color:var(--text);}
+.nav-links a:hover::after{width:100%;}
+.nav-cta{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(200,169,110,.4);padding:10px 24px;text-decoration:none;transition:background .3s,color .3s,border-color .3s;}
+.nav-cta:hover{background:var(--accent);color:var(--bg);border-color:var(--accent);}
+.nav-toggle{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;}
+.nav-toggle span{width:22px;height:1px;background:var(--text);transition:transform .3s,opacity .3s;display:block;}
+
+/* HERO */
+.hero{min-height:100vh;display:grid;grid-template-columns:1.1fr 0.9fr;position:relative;overflow:hidden;}
+.hero-left{display:flex;flex-direction:column;justify-content:flex-end;padding:160px 64px 88px;position:relative;z-index:2;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:12px;color:var(--accent);font-size:9px;letter-spacing:.3em;text-transform:uppercase;margin-bottom:36px;opacity:0;animation:fadeUp .9s .15s forwards;}
+.hero-eyebrow::before{content:'';width:28px;height:1px;background:var(--accent);}
+.hero-name{font-family:'Cormorant Garamond',serif;font-size:clamp(58px,6.5vw,98px);font-weight:300;line-height:.92;letter-spacing:-.025em;margin-bottom:10px;opacity:0;animation:fadeUp .9s .3s forwards;}
+.hero-name em{font-style:italic;color:var(--accent);}
+.hero-role{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,3.8vw,58px);font-weight:300;line-height:1.05;color:var(--muted);margin-bottom:52px;opacity:0;animation:fadeUp .9s .45s forwards;}
+.hero-desc{max-width:400px;color:var(--muted);font-size:11.5px;line-height:2;margin-bottom:56px;opacity:0;animation:fadeUp .9s .6s forwards;}
+.hero-desc strong{color:var(--text);font-weight:400;}
+.hero-actions{display:flex;gap:24px;align-items:center;opacity:0;animation:fadeUp .9s .75s forwards;}
+.btn-primary{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;background:var(--accent);color:var(--bg);padding:15px 36px;text-decoration:none;transition:opacity .3s,transform .3s;}
+.btn-primary:hover{opacity:.88;transform:translateY(-2px);}
+.btn-ghost{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:10px;transition:color .3s;}
+.btn-ghost:hover{color:var(--text);}
+.btn-ghost svg{transition:transform .3s;}
+.btn-ghost:hover svg{transform:translateX(5px);}
+
+/* HERO RIGHT — profile photo */
+.hero-right{position:relative;overflow:hidden;}
+.hero-right::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,var(--bg) 0%,transparent 35%),linear-gradient(to top,var(--bg) 0%,transparent 20%);z-index:1;}
+.hero-photo-wrap{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;padding-bottom:0;}
+.hero-photo{width:100%;height:100%;object-fit:cover;object-position:top center;filter:grayscale(20%) brightness(.9);transition:filter .5s;}
+.hero-photo-wrap:hover .hero-photo{filter:grayscale(0%) brightness(1);}
+.hero-photo-placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,#1a1710,#0a0a08);}
+.hero-photo-placeholder svg{opacity:.06;}
+.hero-num{position:absolute;bottom:72px;right:56px;font-family:'Cormorant Garamond',serif;font-size:160px;font-weight:300;color:transparent;-webkit-text-stroke:1px var(--dim);line-height:1;user-select:none;z-index:2;opacity:0;animation:fadeIn 1.2s 1s forwards;}
+.scroll-hint{position:absolute;bottom:36px;left:64px;display:flex;align-items:center;gap:14px;color:var(--muted);font-size:9px;letter-spacing:.22em;text-transform:uppercase;opacity:0;animation:fadeUp .9s 1.3s forwards;z-index:3;}
+.scroll-line{width:48px;height:1px;background:var(--dim);position:relative;overflow:hidden;}
+.scroll-line::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:var(--accent);animation:scanLine 2s 1.8s ease-in-out infinite;}
+
+/* STATS */
+.stats-bar{border-top:1px solid var(--border);border-bottom:1px solid var(--border);display:grid;grid-template-columns:repeat(4,1fr);background:var(--bg2);}
+.stat-item{padding:36px 56px;border-right:1px solid var(--border);opacity:0;transform:translateY(18px);transition:opacity .7s,transform .7s;}
+.stat-item.visible{opacity:1;transform:none;}
+.stat-item:last-child{border-right:none;}
+.stat-num{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:300;color:var(--accent);display:block;line-height:1;}
+.stat-label{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:6px;display:block;}
+
+/* SECTION */
+section{padding:128px 64px;}
+.section-tag{display:flex;align-items:center;gap:14px;color:var(--accent);font-size:9px;letter-spacing:.28em;text-transform:uppercase;margin-bottom:18px;}
+.section-tag::before{content:'';width:22px;height:1px;background:var(--accent);}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(38px,4vw,60px);font-weight:300;line-height:1.05;letter-spacing:-.015em;}
+.section-title em{font-style:italic;color:var(--accent);}
+
+/* ═══════════ CIRCULAR ORBIT CAROUSEL ═══════════ */
+.projects-section{background:var(--bg);padding-top:100px;padding-bottom:80px;}
+.projects-section .section-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:64px;}
+.projects-section .section-header p{color:var(--muted);font-size:11px;max-width:260px;text-align:right;line-height:1.9;}
+
+.orbit-scene{position:relative;width:100%;height:88vh;max-height:820px;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+
+/* decorative rings */
+.o-ring{position:absolute;border-radius:50%;border:1px solid rgba(200,169,110,.06);pointer-events:none;}
+.o-ring-1{width:700px;height:700px;}
+.o-ring-2{width:560px;height:560px;border-color:rgba(200,169,110,.04);}
+.o-ring-3{width:420px;height:420px;border-color:rgba(200,169,110,.07);}
+.o-dot{position:absolute;width:700px;height:700px;border-radius:50%;pointer-events:none;animation:orbitSpin 16s linear infinite;}
+.o-dot::before{content:'';position:absolute;top:-5px;left:50%;width:10px;height:10px;margin-left:-5px;background:var(--accent);border-radius:50%;opacity:.5;box-shadow:0 0 12px var(--accent);}
+.o-dot-2{width:420px;height:420px;animation:orbitSpin 24s linear infinite reverse;opacity:.5;}
+.o-dot-2::before{top:-3px;width:6px;height:6px;margin-left:-3px;opacity:.3;}
+
+/* orbit track holding the nodes */
+.orbit-track{position:relative;width:680px;height:680px;}
+
+/* project thumbnail nodes on the orbit */
+.p-node{position:absolute;width:84px;height:84px;top:50%;left:50%;transform:translate(-50%,-50%);cursor:none;z-index:4;}
+.p-node-inner{width:84px;height:84px;border-radius:50%;overflow:hidden;border:1px solid rgba(200,169,110,.18);transition:transform .45s cubic-bezier(.23,1,.32,1),border-color .4s,box-shadow .4s;background:var(--surface);}
+.p-node.active .p-node-inner{border-color:var(--accent);transform:scale(1.3)!important;box-shadow:0 0 0 6px rgba(200,169,110,.1),0 0 40px rgba(200,169,110,.12);}
+.p-node img{width:100%;height:100%;object-fit:cover;opacity:.72;transition:opacity .4s;}
+.p-node.active img{opacity:1;}
+.p-node-ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--surface);}
+.p-node-ph svg{opacity:.15;}
+.node-tag{position:absolute;white-space:nowrap;font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);pointer-events:none;background:rgba(8,8,7,.85);padding:4px 9px;transition:color .4s;border:1px solid transparent;top:50%;left:50%;}
+.p-node.active .node-tag{color:var(--accent2);border-color:rgba(200,169,110,.2);}
+
+/* center large preview */
+.orbit-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:10;cursor:none;}
+.orbit-center-ring{width:260px;height:260px;border-radius:50%;overflow:hidden;border:1px solid rgba(200,169,110,.25);position:relative;transition:transform .6s cubic-bezier(.23,1,.32,1),box-shadow .6s;}
+.orbit-center-ring:hover{transform:scale(1.04);box-shadow:0 0 60px rgba(200,169,110,.1);}
+.orbit-center-ring::after{content:'';position:absolute;inset:0;border-radius:50%;border:1px solid rgba(200,169,110,.12);pointer-events:none;z-index:2;}
+.orbit-center-img{width:100%;height:100%;object-fit:cover;transition:opacity .55s;}
+.orbit-center-ph{position:absolute;inset:0;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:var(--surface);transition:opacity .4s;}
+.orbit-center-ph svg{opacity:.12;}
+.orbit-center-ph span{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);}
+
+/* expand on click overlay */
+.center-expand-hint{position:absolute;bottom:-52px;left:50%;transform:translateX(-50%);font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);white-space:nowrap;display:flex;align-items:center;gap:8px;}
+.center-expand-hint::before,.center-expand-hint::after{content:'';width:16px;height:1px;background:var(--dim);}
+
+/* info below center */
+.orbit-info{position:absolute;bottom:52px;left:50%;transform:translateX(-50%);text-align:center;z-index:20;pointer-events:none;width:340px;}
+.orbit-info-cat{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;opacity:0;transform:translateY(10px);transition:opacity .5s,transform .5s;}
+.orbit-info-title{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,2.2vw,30px);font-weight:400;line-height:1.05;margin-bottom:6px;opacity:0;transform:translateY(10px);transition:opacity .5s .05s,transform .5s .05s;}
+.orbit-info-role{font-size:10px;color:var(--muted);opacity:0;transform:translateY(10px);transition:opacity .5s .1s,transform .5s .1s;}
+.orbit-info.show .orbit-info-cat,.orbit-info.show .orbit-info-title,.orbit-info.show .orbit-info-role{opacity:1;transform:none;}
+
+/* carousel controls */
+.orbit-ctrl{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:18px;z-index:20;}
+.o-btn{width:38px;height:38px;border:1px solid var(--border);background:transparent;color:var(--muted);display:flex;align-items:center;justify-content:center;cursor:none;transition:border-color .3s,color .3s;}
+.o-btn:hover{border-color:var(--accent);color:var(--accent);}
+.o-dots{display:flex;gap:7px;align-items:center;}
+.o-dot-ctrl{width:5px;height:5px;border-radius:50%;background:var(--dim);transition:background .3s,transform .3s,width .3s;}
+.o-dot-ctrl.active{background:var(--accent);transform:scale(1.5);}
+
+/* left scroll indicator */
+.orbit-scroll-ind{position:absolute;left:0;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;gap:14px;z-index:20;}
+.orbit-scroll-ind span{font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);writing-mode:vertical-rl;}
+.orbit-scroll-track{width:1px;height:56px;background:var(--dim);overflow:hidden;position:relative;}
+.orbit-scroll-track::after{content:'';position:absolute;top:-100%;left:0;width:100%;height:100%;background:var(--accent);animation:scanLine 2s ease-in-out infinite;}
+
+/* LIGHTBOX */
+.lightbox{position:fixed;inset:0;background:rgba(8,8,7,.95);z-index:8000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .4s;backdrop-filter:blur(12px);}
+.lightbox.open{opacity:1;pointer-events:all;}
+.lb-img-wrap{position:relative;max-width:90vw;max-height:90vh;border:1px solid rgba(200,169,110,.18);}
+.lb-img-wrap img{max-width:90vw;max-height:85vh;object-fit:contain;display:block;}
+.lb-close{position:absolute;top:-44px;right:0;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);cursor:none;display:flex;align-items:center;gap:8px;transition:color .3s;}
+.lb-close:hover{color:var(--accent);}
+.lb-close::before{content:'';width:24px;height:1px;background:currentColor;}
+.lb-info{position:absolute;bottom:-44px;left:0;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);}
+
+/* ═══════════ PHOTO GALLERY ═══════════ */
+.gallery-section{background:var(--bg2);border-top:1px solid var(--border);}
+.gallery-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:56px;}
+.gallery-grid{
+  display:grid;
+  grid-template-columns:repeat(12,1fr);
+  gap:3px;
+  grid-auto-rows:200px;
+}
+.g-cell{overflow:hidden;position:relative;cursor:none;background:var(--surface);}
+.g-cell img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.23,1,.32,1),filter .5s;filter:brightness(.85);}
+.g-cell:hover img{transform:scale(1.07);filter:brightness(.6);}
+.g-cell-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;}
+.g-cell-ph svg{opacity:.1;}
+.g-cell-ph span{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);}
+.g-cell-overlay{position:absolute;inset:0;display:flex;align-items:flex-end;padding:16px;opacity:0;transition:opacity .4s;background:linear-gradient(to top,rgba(8,8,7,.8),transparent);}
+.g-cell:hover .g-cell-overlay{opacity:1;}
+.g-cell-label{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent2);}
+/* grid spans */
+.g-w2{grid-column:span 2;}
+.g-w3{grid-column:span 3;}
+.g-w4{grid-column:span 4;}
+.g-w5{grid-column:span 5;}
+.g-w6{grid-column:span 6;}
+.g-w7{grid-column:span 7;}
+.g-h2{grid-row:span 2;}
+
+/* ═══════════ REEL STRIP ═══════════ */
+.reel-section{background:var(--bg);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:96px 64px;}
+.reel-inner{display:grid;grid-template-columns:1fr auto;gap:80px;align-items:center;}
+.reel-text p{color:var(--muted);font-size:12px;line-height:1.95;margin-top:20px;max-width:420px;}
+.reel-visual{display:flex;flex-direction:column;align-items:center;gap:0;}
+.reel-frame{width:220px;aspect-ratio:9/16;background:var(--surface);border:1px solid var(--border);overflow:hidden;position:relative;}
+.reel-frame img{width:100%;height:100%;object-fit:cover;opacity:.55;transition:opacity .4s;}
+.reel-frame:hover img{opacity:.72;}
+.reel-frame-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;}
+.reel-frame-ph svg{opacity:.1;}
+.reel-frame-ph span{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);}
+.reel-play{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:rgba(8,8,7,.4);}
+.reel-play-circle{width:56px;height:56px;border:1px solid var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .3s,transform .3s;}
+.reel-frame:hover .reel-play-circle{background:rgba(200,169,110,.15);transform:scale(1.08);}
+.reel-play-circle svg{margin-left:3px;}
+.reel-play-label{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);}
+.reel-link-bar{width:220px;display:flex;align-items:center;gap:12px;padding:14px 16px;border:1px solid var(--border);border-top:none;background:var(--surface);text-decoration:none;transition:border-color .3s,background .3s;color:var(--muted);font-size:9px;letter-spacing:.15em;text-transform:uppercase;}
+.reel-link-bar:hover{border-color:rgba(200,169,110,.3);background:rgba(200,169,110,.04);color:var(--accent);}
+.reel-link-bar svg{flex-shrink:0;}
+
+/* BRANDS */
+.brands-marquee{overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:26px 0;position:relative;}
+.brands-marquee::before,.brands-marquee::after{content:'';position:absolute;top:0;bottom:0;width:100px;z-index:2;}
+.brands-marquee::before{left:0;background:linear-gradient(to right,var(--bg),transparent);}
+.brands-marquee::after{right:0;background:linear-gradient(to left,var(--bg),transparent);}
+.brands-track{display:flex;animation:marquee 26s linear infinite;width:max-content;}
+.brand-item{padding:0 52px;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);border-right:1px solid var(--border);white-space:nowrap;transition:color .3s;}
+.brand-item:hover{color:var(--accent);}
+
+/* SKILLS */
+.skills-section{background:var(--bg2);border-top:1px solid var(--border);}
+.skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:56px;}
+.sk-item{background:var(--surface);padding:44px 40px;position:relative;overflow:hidden;transition:background .3s;}
+.sk-item::before{content:'';position:absolute;top:0;left:0;width:2px;height:0;background:var(--accent);transition:height .45s cubic-bezier(.23,1,.32,1);}
+.sk-item:hover::before{height:100%;}
+.sk-item:hover{background:rgba(255,255,255,.018);}
+.sk-num{font-family:'Cormorant Garamond',serif;font-size:11px;color:var(--accent);display:block;margin-bottom:28px;letter-spacing:.12em;}
+.sk-name{font-family:'Syne',sans-serif;font-size:15px;font-weight:600;margin-bottom:14px;letter-spacing:.02em;}
+.sk-desc{color:var(--muted);font-size:11.5px;line-height:1.85;}
+
+/* ABOUT */
+.about-section{background:var(--bg);border-top:1px solid var(--border);}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:120px;align-items:start;}
+.about-text p{color:var(--muted);font-size:12.5px;line-height:2.05;margin-bottom:26px;}
+.about-text p:last-child{margin-bottom:0;}
+.about-pull{font-family:'Cormorant Garamond',serif;font-size:23px;font-style:italic;color:var(--text);margin-bottom:36px !important;line-height:1.55 !important;}
+.about-box{background:var(--surface);border:1px solid var(--border);padding:52px;position:sticky;top:120px;}
+.about-box::before{content:'';position:absolute;top:-1px;left:44px;width:56px;height:2px;background:var(--accent);}
+.about-big{font-family:'Cormorant Garamond',serif;font-size:88px;font-weight:300;color:var(--accent);line-height:1;display:block;margin-bottom:6px;}
+.about-lbl{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:44px;display:block;}
+.about-tags{display:flex;flex-wrap:wrap;gap:7px;}
+.a-tag{font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:7px 13px;border:1px solid var(--border);color:var(--muted);transition:border-color .3s,color .3s;}
+.a-tag:hover{border-color:var(--accent);color:var(--accent);}
+
+/* CONTACT */
+.contact-section{background:var(--bg2);border-top:1px solid var(--border);padding:160px 64px;text-align:center;}
+.contact-big{font-family:'Cormorant Garamond',serif;font-size:clamp(44px,7.5vw,112px);font-weight:300;line-height:.88;letter-spacing:-.03em;margin-bottom:52px;}
+.contact-big em{font-style:italic;color:var(--accent);}
+.contact-sub{color:var(--muted);font-size:11px;letter-spacing:.12em;margin-bottom:60px;display:block;}
+.contact-cards{display:flex;gap:3px;justify-content:center;flex-wrap:wrap;margin-bottom:0;}
+.c-card{display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding:28px 36px;border:1px solid var(--border);background:var(--surface);text-decoration:none;transition:border-color .35s,background .35s;min-width:220px;}
+.c-card:hover{border-color:rgba(200,169,110,.3);background:rgba(200,169,110,.03);}
+.c-card-label{font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
+.c-card-value{font-size:12px;color:var(--text);letter-spacing:.04em;}
+.c-card svg{color:var(--accent);margin-bottom:6px;}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:32px 64px;display:flex;align-items:center;justify-content:space-between;background:var(--bg);}
+.footer-copy{font-size:10px;color:var(--muted);}
+.footer-note{font-size:10px;color:var(--dim);}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .75s cubic-bezier(.23,1,.32,1),transform .75s cubic-bezier(.23,1,.32,1);}
+.reveal.visible{opacity:1;transform:none;}
+
+/* KEYFRAMES */
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:none;}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+@keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+@keyframes scanLine{0%{top:-100%;}50%{top:0%;}100%{top:100%;}}
+@keyframes orbitSpin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+
+/* RESPONSIVE */
+@media(max-width:1100px){
+  nav{padding:22px 36px;}
+  section{padding:88px 36px;}
+  .orbit-track{width:520px;height:520px;}
+  .o-ring-1{width:550px;height:550px;}
+  .o-ring-2{width:430px;height:430px;}
+  .o-ring-3{width:330px;height:330px;}
+  .o-dot{width:550px;height:550px;}
+  .o-dot-2{width:330px;height:330px;}
+  .orbit-center-ring{width:210px;height:210px;}
+  .stats-bar{grid-template-columns:repeat(2,1fr);}
+  .about-grid{grid-template-columns:1fr;gap:56px;}
+  .reel-inner{grid-template-columns:1fr;gap:56px;justify-items:start;}
+  .gallery-grid{auto-rows:160px;}
+}
+@media(max-width:768px){
+  body{cursor:auto;}
+  .cursor,.cursor-ring{display:none;}
+  nav{padding:18px 24px;}
+  .nav-links,.nav-cta{display:none;}
+  .nav-toggle{display:flex;}
+  .hero{grid-template-columns:1fr;}
+  .hero-right{display:none;}
+  .hero-left{padding:110px 24px 64px;}
+  .scroll-hint{left:24px;}
+  section{padding:64px 24px;}
+  .orbit-scene{height:72vh;}
+  .orbit-track{width:300px;height:300px;}
+  .o-ring-1{width:320px;height:320px;}
+  .o-ring-2,.o-ring-3,.o-dot-2{display:none;}
+  .o-dot{width:320px;height:320px;}
+  .orbit-center-ring{width:150px;height:150px;}
+  .orbit-scroll-ind{display:none;}
+  .skills-grid{grid-template-columns:1fr;}
+  .gallery-grid{grid-template-columns:1fr 1fr;auto-rows:140px;}
+  .g-w2,.g-w3,.g-w4,.g-w5,.g-w6,.g-w7{grid-column:span 1;}
+  .g-h2{grid-row:span 1;}
+  .contact-section{padding:80px 24px;}
+  .contact-cards{flex-direction:column;align-items:center;}
+  .c-card{width:100%;max-width:340px;}
+  footer{flex-direction:column;gap:10px;text-align:center;padding:24px;}
+  .stats-bar{grid-template-columns:1fr 1fr;}
+  .hero-left{padding:120px 24px 56px;}
+  .reel-section{padding:64px 24px;}
+  .reel-inner{justify-items:center;}
+  .about-grid{gap:40px;}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <div class="lb-img-wrap">
+    <div class="lb-close" id="lbClose">Close</div>
+    <img id="lbImg" src="" alt=""/>
+    <div class="lb-info" id="lbInfo"></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <div class="nav-logo">A. El Shamy</div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#projects">Work</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#reel">Reel</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Let's Talk</a>
+  <div class="nav-toggle" id="navToggle"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Available for opportunities — Cairo, Egypt</div>
+    <h1 class="hero-name">Abdullah<br><em>El Shamy</em></h1>
+    <p class="hero-role">Production &<br>Direction</p>
+    <p class="hero-desc"><strong>Assistant Director · Casting Coordinator · BTS Photographer.</strong><br>Passionate about visual storytelling and the small details that build strong on-set impact.</p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn-primary">View Work</a>
+      <a href="#contact" class="btn-ghost">Get in Touch<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg></a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-photo-wrap">
+      <!-- صورتك الشخصية: profile.jpg -->
+      <img class="hero-photo" src="profile.jpg" alt="Abdullah El Shamy"
+           onerror="this.style.display='none';document.querySelector('.hero-photo-placeholder').style.display='flex'"/>
+      <div class="hero-photo-placeholder" style="display:none;">
+        <svg width="280" height="280" viewBox="0 0 280 280" fill="none"><circle cx="140" cy="140" r="110" stroke="#c8a96e" stroke-width=".5"/><circle cx="140" cy="140" r="70" stroke="#c8a96e" stroke-width=".5"/><circle cx="140" cy="140" r="30" stroke="#c8a96e" stroke-width=".5"/><line x1="30" y1="140" x2="250" y2="140" stroke="#c8a96e" stroke-width=".5"/><line x1="140" y1="30" x2="140" y2="250" stroke="#c8a96e" stroke-width=".5"/></svg>
+      </div>
+    </div>
+    <div class="hero-num">30+</div>
+  </div>
+  <div class="scroll-hint"><div class="scroll-line"></div>Scroll to explore</div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar" id="statsBar">
+  <div class="stat-item"><span class="stat-num">30+</span><span class="stat-label">Advertising Projects</span></div>
+  <div class="stat-item"><span class="stat-num">6+</span><span class="stat-label">Major Brands</span></div>
+  <div class="stat-item"><span class="stat-num">10+</span><span class="stat-label">Public Figures</span></div>
+  <div class="stat-item"><span class="stat-num">4</span><span class="stat-label">Production Roles</span></div>
+</div>
+
+<!-- ═══════════ PROJECTS — ORBIT CAROUSEL ═══════════ -->
+<section id="projects" class="projects-section">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-tag">Selected Work</div>
+      <h2 class="section-title">Projects &<br><em>Productions</em></h2>
+    </div>
+    <p>Orbit the ring or use arrows to explore — click the center to expand any project.</p>
+  </div>
+
+  <div class="orbit-scene" id="orbitScene">
+    <!-- decorative rings -->
+    <div class="o-ring o-ring-1"></div>
+    <div class="o-ring o-ring-2"></div>
+    <div class="o-ring o-ring-3"></div>
+    <div class="o-dot" id="oDot"></div>
+    <div class="o-dot o-dot-2"></div>
+
+    <!-- left indicator -->
+    <div class="orbit-scroll-ind">
+      <span>Explore</span>
+      <div class="orbit-scroll-track"></div>
+    </div>
+
+    <!-- orbit track -->
+    <div class="orbit-track" id="orbitTrack">
+
+      <!-- center display -->
+      <div class="orbit-center" id="orbitCenter">
+        <div class="orbit-center-ring" id="centerRing">
+          <!-- center image updates via JS -->
+          <img id="centerImg" class="orbit-center-img" src="" alt="" style="display:none;"/>
+          <div class="orbit-center-ph" id="centerPh">
+            <svg width="44" height="44" viewBox="0 0 44 44" fill="none"><circle cx="22" cy="22" r="16" stroke="#c8a96e" stroke-width=".6"/><circle cx="22" cy="22" r="9" stroke="#c8a96e" stroke-width=".6"/><line x1="6" y1="22" x2="38" y2="22" stroke="#c8a96e" stroke-width=".6"/><line x1="22" y1="6" x2="22" y2="38" stroke="#c8a96e" stroke-width=".6"/></svg>
+            <span>Select project</span>
+          </div>
+        </div>
+        <div class="center-expand-hint" id="expandHint" style="display:none;">tap to expand</div>
+      </div>
+
+      <!-- nodes — positions set by JS -->
+      <div class="p-node" data-i="0" id="pn0">
+        <div class="p-node-inner">
+          <div class="p-node-ph"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="2" y="5" width="18" height="12" stroke="#c8a96e" stroke-width=".7"/><circle cx="7" cy="9" r="2" stroke="#c8a96e" stroke-width=".7"/><path d="M2 14l4-3 4 3 3-2 6 4" stroke="#c8a96e" stroke-width=".7"/></svg></div>
+          <img src="pepsi.jpg" alt="Pepsi" onerror="this.style.display='none'"/>
+        </div>
+        <div class="node-tag" id="nt0">Pepsi</div>
+      </div>
+
+      <div class="p-node" data-i="1" id="pn1">
+        <div class="p-node-inner">
+          <div class="p-node-ph"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4 3h14v16H4z" stroke="#c8a96e" stroke-width=".7"/><path d="M7 8h8M7 11h8M7 14h5" stroke="#c8a96e" stroke-width=".7" opacity=".5"/></svg></div>
+          <img src="amr-diab.jpg" alt="Amr Diab" onerror="this.style.display='none'"/>
+        </div>
+        <div class="node-tag" id="nt1">Amr Diab</div>
+      </div>
+
+      <div class="p-node" data-i="2" id="pn2">
+        <div class="p-node-inner">
+          <div class="p-node-ph"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="8" stroke="#c8a96e" stroke-width=".7"/><polygon points="8,7 16,11 8,15" fill="#c8a96e" opacity=".3"/></svg></div>
+          <img src="pubg.jpg" alt="Pubg" onerror="this.style.display='none'"/>
+        </div>
+        <div class="node-tag" id="nt2">PUBG</div>
+      </div>
+
+      <div class="p-node" data-i="3" id="pn3">
+        <div class="p-node-inner">
+          <div class="p-node-ph"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M5 18V8l6-4 6 4v10" stroke="#c8a96e" stroke-width=".7"/><rect x="8" y="12" width="6" height="6" stroke="#c8a96e" stroke-width=".7"/></svg></div>
+          <img src="palm-hills.jpg" alt="Palm Hills" onerror="this.style.display='none'"/>
+        </div>
+        <div class="node-tag" id="nt3">Palm Hills</div>
+      </div>
+
+      <div class="p-node" data-i="4" id="pn4">
+        <div class="p-node-inner">
+          <div class="p-node-ph"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="7" stroke="#c8a96e" stroke-width=".7"/><path d="M7 11c0-2.2 1.8-4 4-4s4 1.8 4 4-1.8 4-4 4" stroke="#c8a96e" stroke-width=".7"/><circle cx="11" cy="11" r="1.5" fill="#c8a96e" opacity=".3"/></svg></div>
+          <img src="moussa.jpg" alt="Marwan Moussa" onerror="this.style.display='none'"/>
+        </div>
+        <div class="node-tag" id="nt4">Moussa</div>
+      </div>
+
+      <div class="p-node" data-i="5" id="pn5">
+        <div class="p-node-inner">
+          <div class="p-node-ph"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="2" y="2" width="18" height="18" rx="3" stroke="#c8a96e" stroke-width=".7"/><circle cx="11" cy="11" r="4" stroke="#c8a96e" stroke-width=".7"/><circle cx="16" cy="5.5" r="1" fill="#c8a96e" opacity=".5"/></svg></div>
+          <img src="el-abd.jpg" alt="El-Abd" onerror="this.style.display='none'"/>
+        </div>
+        <div class="node-tag" id="nt5">El-Abd</div>
+      </div>
+
+    </div><!-- /orbit-track -->
+
+    <!-- info panel -->
+    <div class="orbit-info" id="orbitInfo">
+      <div class="orbit-info-cat" id="iCat"></div>
+      <div class="orbit-info-title" id="iTitle"></div>
+      <div class="orbit-info-role" id="iRole"></div>
+    </div>
+
+    <!-- controls -->
+    <div class="orbit-ctrl">
+      <button class="o-btn" id="oPrev" aria-label="Prev">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M8 3L5 6.5 8 10" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>
+      </button>
+      <div class="o-dots" id="oDots"></div>
+      <button class="o-btn" id="oNext" aria-label="Next">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M5 3l3 3.5-3 3.5" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+
+  </div><!-- /orbit-scene -->
+</section>
+
+<!-- BRANDS -->
+<div class="brands-marquee">
+  <div class="brands-track">
+    <span class="brand-item">Pepsi</span><span class="brand-item">Juhayna</span><span class="brand-item">El-Abd</span><span class="brand-item">Domty</span><span class="brand-item">Vodafone</span><span class="brand-item">Palm Hills</span><span class="brand-item">Molto</span><span class="brand-item">Amr Diab</span><span class="brand-item">Marwan Moussa</span><span class="brand-item">Ahmed Malek</span><span class="brand-item">Ramez Galal</span><span class="brand-item">Kivya</span><span class="brand-item">Saudi Campaigns</span><span class="brand-item">Pepsi</span><span class="brand-item">El-Abd</span><span class="brand-item">Domty</span><span class="brand-item">Vodafone</span><span class="brand-item">Palm Hills</span><span class="brand-item">Molto</span><span class="brand-item">Amr Diab</span><span class="brand-item">Marwan Moussa</span><span class="brand-item">Ahmed Malek</span><span class="brand-item">Ramez Galal</span><span class="brand-item">Kivya</span><span class="brand-item">Saudi Campaigns</span>
+  </div>
+</div>
+
+<!-- ═══════════ PHOTO GALLERY ═══════════ -->
+<!-- ═══════════ PHOTO GALLERY ═══════════ -->
+<section id="gallery" class="gallery-section">
+  <div class="gallery-header reveal">
+    <div>
+      <div class="section-tag">BTS & Production</div>
+      <h2 class="section-title">Gallery &<br><em>Moments</em></h2>
+    </div>
+    <p style="color:var(--muted);font-size:11px;max-width:240px;text-align:right;line-height:1.9;">Behind the camera and behind the scenes — authentic frames from the set.</p>
+  </div>
+
+  <div class="gallery-grid">
+    <!-- g1: Freelance Photographer -->
+    <div class="g-cell g-w4 g-h2 reveal" data-lb="g1.jpg" data-lbl="Freelance Photographer">
+      <img src="g1.jpg" alt="BTS" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+      <div class="g-cell-ph" style="display:none;"><svg width="36" height="36" viewBox="0 0 36 36" fill="none"><rect x="3" y="7" width="30" height="22" stroke="#c8a96e" stroke-width=".6"/><circle cx="13" cy="15" r="3" stroke="#c8a96e" stroke-width=".6"/><path d="M3 24l7-6 6 6 5-3 9 6" stroke="#c8a96e" stroke-width=".6"/></svg><span>g1.jpg</span></div>
+      <div class="g-cell-overlay"><span class="g-cell-label">Freelance Photographer</span></div>
+    </div>
+
+    <!-- g2: Freelance Photographer -->
+    <div class="g-cell g-w3 reveal" data-lb="g2.jpg" data-lbl="Freelance Photographer">
+      <img src="g2.jpg" alt="BTS" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+      <div class="g-cell-ph" style="display:none;"><svg width="36" height="36" viewBox="0 0 36 36" fill="none"><rect x="3" y="7" width="30" height="22" stroke="#c8a96e" stroke-width=".6"/><circle cx="13" cy="15" r="3" stroke="#c8a96e" stroke-width=".6"/></svg><span>g2.jpg</span></div>
+      <div class="g-cell-overlay"><span class="g-cell-label">Freelance Photographer</span></div>
+    </div>
+
+    <!-- g3: Freelance Photographer -->
+    <div class="g-cell g-w5 reveal" data-lb="g3.jpg" data-lbl="Freelance Photographer">
+      <img src="g3.jpg" alt="Vodafone" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+      <div class="g-cell-ph" style="display:none;"><svg width="36" height="36" viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="12" stroke="#c8a96e" stroke-width=".6"/></svg><span>g3.jpg</span></div>
+      <div class="g-cell-overlay"><span class="g-cell-label">Freelance Photographer</span></div>
+    </div>
+
+    <!-- g4: Freelance Photographer -->
+    <div class="g-cell g-w3 reveal" data-lb="g4.jpg" data-lbl="Freelance Photographer">
+      <img src="g4.jpg" alt="Amr Diab" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+      <div class="g-cell-ph" style="display:none;"><svg width="36" height="36" viewBox="0 0 36 36" fill="none"><rect x="3" y="7" width="30" height="22" stroke="#c8a96e" stroke-width=".6"/></svg><span>g4.jpg</span></div>
+      <div class="g-cell-overlay"><span class="g-cell-label">Freelance Photographer</span></div>
+    </div>
+
+    <!-- g5: Freelance Photographer -->
+    <div class="g-cell g-w6 g-h2 reveal" data-lb="g5.jpg" data-lbl="Freelance Photographer">
+      <img src="g5.jpg" alt="Palm Hills" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+      <div class="g-cell-ph" style="display:none;"><svg width="36" height="36" viewBox="0 0 36 36" fill="none"><path d="M9 30V14l9-6 9 6v16" stroke="#c8a96e" stroke-width=".6"/></svg><span>g5.jpg</span></div>
+      <div class="g-cell-overlay"><span class="g-cell-label">Freelance Photographer</span></div>
+    </div>
+
+    <!-- g6: Freelance Photographer -->
+    <div class="g-cell g-w3 reveal" data-lb="g6.jpg" data-lbl="Freelance Photographer">
+      <img src="g6.jpg" alt="Marwan Moussa" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+      <div class="g-cell-ph" style="display:none;"><svg width="36" height="36" viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="12" stroke="#c8a96e" stroke-width=".6"/></svg><span>g6.jpg</span></div>
+      <div class="g-cell-overlay"><span class="g-cell-label">Freelance Photographer</span></div>
+    </div>
+
+    <!-- g7: Freelance Photographer -->
+    <div class="g-cell g-w3 reveal" data-lb="g7.jpg" data-lbl="Freelance Photographer">
+      <img src="g7.jpg" alt="On Set" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+      <div class="g-cell-ph" style="display:none;"><svg width="36" height="36" viewBox="0 0 36 36" fill="none"><rect x="3" y="7" width="30" height="22" stroke="#c8a96e" stroke-width=".6"/></svg><span>g7.jpg</span></div>
+      <div class="g-cell-overlay"><span class="g-cell-label">Freelance Photographer</span></div>
+    </div>
+
+    <!-- g8: Casting Director — Domty Ad -->
+    <div class="g-cell g-w4 reveal" data-lb="g8.jpg" data-lbl="Casting Director — Domty Ad">
+      <img src="g8.jpg" alt="Casting" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+      <div class="g-cell-ph" style="display:none;"><svg width="36" height="36" viewBox="0 0 36 36" fill="none"><rect x="3" y="7" width="30" height="22" stroke="#c8a96e" stroke-width=".6"/></svg><span>g8.jpg</span></div>
+      <div class="g-cell-overlay"><span class="g-cell-label">Casting Director — Domty</span></div>
+    </div>
+
+    <!-- g9: Casting — Covertna Chocolate -->
+    <div class="g-cell g-w5 reveal" data-lb="g9.jpg" data-lbl="Casting — Covertna Chocolate">
+      <img src="g9.jpg" alt="Production" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+      <div class="g-cell-ph" style="display:none;"><svg width="36" height="36" viewBox="0 0 36 36" fill="none"><rect x="3" y="7" width="30" height="22" stroke="#c8a96e" stroke-width=".6"/></svg><span>g9.jpg</span></div>
+      <div class="g-cell-overlay"><span class="g-cell-label">Casting — Covertna</span></div>
+    </div>
+
+    <!-- g10: Casting Director — Vodafone Ad -->
+    <div class="g-cell g-w12 reveal" data-lb="g10.jpg" data-lbl="Casting Director — Vodafone Ad">
+      <img src="g10.jpg" alt="Direction" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+      <div class="g-cell-ph" style="display:none;"><svg width="36" height="36" viewBox="0 0 36 36" fill="none"><rect x="3" y="7" width="30" height="22" stroke="#c8a96e" stroke-width=".6"/></svg><span>g10.jpg</span></div>
+      <div class="g-cell-overlay"><span class="g-cell-label">Casting Director — Vodafone</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ REEL ═══════════ -->
+<section id="reel" class="reel-section">
+  <div class="reel-inner">
+    <div class="reel-text reveal">
+      <div class="section-tag">Featured Reel</div>
+      <h2 class="section-title" style="margin-bottom:0;">Behind the<br><em>Scenes</em></h2>
+      <p>A glimpse into the on-set energy — the pace, precision, and passion behind every frame.</p>
+    </div>
+    <div class="reveal" style="display:flex;flex-direction:column;align-items:center;">
+      <!--
+        اللي محتاجه:
+        - reel-thumb.jpg : صورة الثامبنيل للريلز
+        - حط لينك الريلز بتاعك في الـ href الجاي
+      -->
+      <a href="https://www.instagram.com/shimoxgraphy?igsh=YW1rM2NrdGJ6ODEw" target="_blank" rel="noopener" class="reel-frame" style="display:block;text-decoration:none;">
+        <img class="reel-preview-thumb" src="reel-thumb.jpg" alt="Reel"
+             onerror="this.style.display='none'"/>
+        <div class="reel-frame-ph">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none"><rect x="3" y="3" width="38" height="38" rx="8" stroke="#c8a96e" stroke-width=".6"/><circle cx="22" cy="22" r="10" stroke="#c8a96e" stroke-width=".6"/><circle cx="32" cy="12" r="2" fill="#c8a96e" opacity=".5"/></svg>
+          <span>reel-thumb.jpg</span>
+        </div>
+        <div class="reel-play">
+          <div class="reel-play-circle">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><polygon points="6,3 15,9 6,15" fill="#c8a96e"/></svg>
+          </div>
+          <span class="reel-play-label">Play on Instagram</span>
+        </div>
+      </a>
+      <a href="https://www.instagram.com/shimoxgraphy?igsh=YW1rM2NrdGJ6ODEw" target="_blank" rel="noopener" class="reel-link-bar">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1" y="1" width="11" height="11" rx="2.5" stroke="currentColor" stroke-width=".9"/><circle cx="6.5" cy="6.5" r="2.2" stroke="currentColor" stroke-width=".9"/><circle cx="9.5" cy="3.5" r=".7" fill="currentColor"/></svg>
+        @shimoxgraphy
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="skills-section">
+  <div class="reveal">
+    <div class="section-tag">Expertise</div>
+    <h2 class="section-title">What I<br><em>Bring</em></h2>
+  </div>
+  <div class="skills-grid">
+    <div class="sk-item reveal"><span class="sk-num">01</span><div class="sk-name">Assistant Directing</div><div class="sk-desc">Coordinating on-set logistics, managing schedules, and supporting the director to ensure smooth production flow across fast-paced environments.</div></div>
+    <div class="sk-item reveal"><span class="sk-num">02</span><div class="sk-name">Casting Coordination</div><div class="sk-desc">Organizing talent logistics, briefing actors and extras, and ensuring casting requirements are met with precision and professionalism.</div></div>
+    <div class="sk-item reveal"><span class="sk-num">03</span><div class="sk-name">BTS Photography</div><div class="sk-desc">Documenting the production process with visual awareness — capturing authentic moments that tell the story behind the screen.</div></div>
+    <div class="sk-item reveal"><span class="sk-num">04</span><div class="sk-name">Visual Composition</div><div class="sk-desc">Understanding framing, light, and spatial relationships to support visual decisions and contribute meaningfully to the creative outcome.</div></div>
+    <div class="sk-item reveal"><span class="sk-num">05</span><div class="sk-name">On-Set Awareness</div><div class="sk-desc">Sharp awareness of set dynamics, crew communication, and production rhythm — reading the room and adapting instantly.</div></div>
+    <div class="sk-item reveal"><span class="sk-num">06</span><div class="sk-name">Fast Adaptation</div><div class="sk-desc">Built through 30+ projects across varied brands — the ability to shift roles, absorb pressure, and deliver without hesitation.</div></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="about-section">
+  <div class="about-grid">
+    <div class="about-text">
+      <div class="section-tag">About</div>
+      <h2 class="section-title" style="margin-bottom:44px;">The Person<br>Behind the <em>Work</em></h2>
+      <p class="about-pull">"Passionate about visual storytelling, on-set work, and observing the small details that create strong visual impact."</p>
+      <p>I'm Abdullah El Shamy — a production professional based in Egypt with hands-on experience across advertising, music video, and commercial productions. Over the past six months I've worked on more than 30 projects spanning assistant directing, casting coordination, and BTS documentation.</p>
+      <p>My time at Kivya deepened my understanding of production workflow and team coordination in professional creative environments. I've had the opportunity to work alongside major Egyptian and international brands, and with some of the region's most recognized public figures and artists.</p>
+      <p>I'm looking to grow within a creative production environment where discipline, visual instinct, and practical knowledge are valued.</p>
+    </div>
+    <div class="reveal">
+      <div class="about-box">
+        <span class="about-big">6</span>
+        <span class="about-lbl">Months of focused production work</span>
+        <div class="about-tags">
+          <span class="a-tag">Advertising</span><span class="a-tag">Music Video</span><span class="a-tag">BTS</span><span class="a-tag">Cairo</span><span class="a-tag">Saudi Campaigns</span><span class="a-tag">On-Set</span><span class="a-tag">Casting</span><span class="a-tag">Direction</span><span class="a-tag">Kivya</span><span class="a-tag">Visual Storytelling</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact-section">
+  <div class="contact-big reveal">Let's make<br>something <em>real.</em></div>
+  <span class="contact-sub reveal">Available for production work, collaboration, and new opportunities</span>
+  <div class="contact-cards reveal">
+
+    <a href="mailto:Adelelsamey7479@gmail.com" class="c-card">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="1" y="4" width="16" height="10" rx="1" stroke="currentColor" stroke-width="1"/><path d="M1 5l8 5 8-5" stroke="currentColor" stroke-width="1"/></svg>
+      <span class="c-card-label">Email</span>
+      <span class="c-card-value">Adelelsamey7479@gmail.com</span>
+    </a>
+
+    <a href="tel:+201144916433" class="c-card">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 3h4l2 4-2 2a10 10 0 005 5l2-2 4 2v4a2 2 0 01-2 2C7 20 -2 11 0 2a2 2 0 012-2z" stroke="currentColor" stroke-width="1"/></svg>
+      <span class="c-card-label">Phone / WhatsApp</span>
+      <span class="c-card-value">011 4491 6433</span>
+    </a>
+
+    <a href="https://www.instagram.com/shimoxgraphy?igsh=YW1rM2NrdGJ6ODEw" target="_blank" rel="noopener" class="c-card">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="1" y="1" width="16" height="16" rx="3.5" stroke="currentColor" stroke-width="1"/><circle cx="9" cy="9" r="3.5" stroke="currentColor" stroke-width="1"/><circle cx="13.5" cy="4.5" r=".8" fill="currentColor"/></svg>
+      <span class="c-card-label">Instagram</span>
+      <span class="c-card-value">@shimoxgraphy</span>
+    </a>
+
+  </div>
+</section>
+
+<footer>
+  <div class="footer-copy">© 2026 Abdullah El Shamy. All rights reserved.</div>
+  <div class="footer-note">Production · Direction · Cairo, Egypt</div>
+</footer>
+
+<script>
+/* ── CURSOR ── */
+const cursor = document.getElementById('cursor');
+const cursorRing = document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX; my=e.clientY;
+  cursor.style.transform=`translate(${mx-3}px,${my-3}px)`;
+});
+document.addEventListener('mousedown',()=>cursorRing.classList.add('clicking'));
+document.addEventListener('mouseup',()=>cursorRing.classList.remove('clicking'));
+(function animateRing(){
+  rx+=(mx-rx-16)*.1; ry+=(my-ry-16)*.1;
+  cursorRing.style.transform=`translate(${rx}px,${ry}px)`;
+  requestAnimationFrame(animateRing);
+})();
+document.querySelectorAll('a,button,.p-node,.sk-item,.g-cell,.orbit-center').forEach(el=>{
+  el.addEventListener('mouseenter',()=>cursorRing.classList.add('hover'));
+  el.addEventListener('mouseleave',()=>cursorRing.classList.remove('hover'));
+});
+
+/* ── NAV SCROLL ── */
+window.addEventListener('scroll',()=>{
+  document.getElementById('mainNav').classList.toggle('scrolled',window.scrollY>60);
+});
+
+/* ── STATS ── */
+const so=new IntersectionObserver(entries=>{
+  entries.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('visible'),i*130);});
+},{threshold:.2});
+document.querySelectorAll('.stat-item').forEach(el=>so.observe(el));
+
+/* ── SCROLL REVEAL ── */
+const ro=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target);}});
+},{threshold:.08,rootMargin:'0px 0px -32px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+
+/* ── LIGHTBOX ── */
+const lightbox=document.getElementById('lightbox');
+const lbImg=document.getElementById('lbImg');
+const lbInfo=document.getElementById('lbInfo');
+function openLightbox(src,label){
+  lbImg.src=src; lbInfo.textContent=label||'';
+  lightbox.classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeLightbox(){
+  lightbox.classList.remove('open');
+  document.body.style.overflow='';
+}
+document.getElementById('lbClose').addEventListener('click',closeLightbox);
+lightbox.addEventListener('click',e=>{if(e.target===lightbox)closeLightbox();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox();});
+
+/* gallery cells click to lightbox */
+document.querySelectorAll('.g-cell').forEach(cell=>{
+  cell.addEventListener('click',()=>{
+    const src=cell.dataset.lb;
+    const lbl=cell.dataset.lbl;
+    if(src){openLightbox(src,lbl);}
+  });
+});
+
+/* ══════════ ORBIT CAROUSEL ══════════ */
+const PROJECTS=[
+  {label:'Pepsi',cat:'Beverage · Advertising',title:'Pepsi Campaign',role:'Assistant Director · On-Set Coordination',src:'pepsi.jpg'},
+  {label:'Amr Diab',cat:'Music Video',title:'Amr Diab Production',role:'BTS Photography · Visual Documentation',src:'amr-diab.jpg'},
+  {label:'Pubg',cat:'Adverstising · Kevva Campaign',title:'PUBG — KEEVA',role:'Casting Director',src:'pubg.jpg'},
+  {label:'Palm Hills',cat:'Real Estate',title:'Palm Hills Campaign',role:'Assistant Director',src:'palm-hills.jpg'},
+  {label:'Moussa',cat:'Music · BTS',title:'Marwan Moussa BTS',role:'BTS Photography · Documentation',src:'moussa.jpg'},
+  {label:'El-Abd',cat:'FMCG · Advertising',title:'KEEVA Campaign',role:'Casting Director · Casting',src:'el-abd.jpg'},
+];
+
+let rotAngle=0,targetRot=0,animID=null,autoT=null,activeIdx=0;
+
+function trackSize(){
+  const t=document.getElementById('orbitTrack');
+  return {w:t.offsetWidth,h:t.offsetHeight};
+}
+function trackRadius(){return trackSize().w*0.455;}
+
+function posNodes(){
+  const {w,h}=trackSize();
+  const cx=w/2, cy=h/2, r=trackRadius(), n=PROJECTS.length;
+  PROJECTS.forEach((_,i)=>{
+    const node=document.getElementById('pn'+i);
+    const nt=document.getElementById('nt'+i);
+    const angle=rotAngle+(i/n)*Math.PI*2-Math.PI/2;
+    const nx=cx+r*Math.cos(angle)-42;
+    const ny=cy+r*Math.sin(angle)-42;
+    node.style.left=nx+'px'; node.style.top=ny+'px';
+
+    /* label positioning — push outside orbit */
+    const lx=Math.cos(angle), ly=Math.sin(angle);
+    const lo=58;
+    nt.style.left=(42+lx*lo-38)+'px';
+    nt.style.top=(42+ly*lo-10)+'px';
+
+    /* scale & opacity by proximity to top */
+    const norm=((angle%(Math.PI*2))+(Math.PI*2))%(Math.PI*2);
+    const top=Math.PI*1.5;
+    let dist=Math.abs(norm-top);
+    if(dist>Math.PI)dist=Math.PI*2-dist;
+    const alpha=0.38+0.62*(1-dist/Math.PI);
+    const scale=0.72+0.28*(1-dist/Math.PI);
+    node.style.opacity=alpha.toFixed(2);
+    if(!node.classList.contains('active')){
+      node.querySelector('.p-node-inner').style.transform=`scale(${scale.toFixed(2)})`;
+    }
+  });
+}
+
+function getActive(){
+  const n=PROJECTS.length;
+  const norm=((-rotAngle%(Math.PI*2))+(Math.PI*2))%(Math.PI*2);
+  return Math.round(norm/(Math.PI*2/n))%n;
+}
+
+function updateInfo(){
+  const idx=getActive();
+  if(idx===activeIdx&&animID)return;
+  activeIdx=idx;
+  document.querySelectorAll('.p-node').forEach(n=>n.classList.remove('active'));
+  document.getElementById('pn'+idx).classList.add('active');
+
+  const oi=document.getElementById('orbitInfo');
+  oi.classList.remove('show');
+  setTimeout(()=>{
+    document.getElementById('iCat').textContent=PROJECTS[idx].cat;
+    document.getElementById('iTitle').textContent=PROJECTS[idx].title;
+    document.getElementById('iRole').textContent=PROJECTS[idx].role;
+
+    const ci=document.getElementById('centerImg');
+    const cp=document.getElementById('centerPh');
+    const eh=document.getElementById('expandHint');
+    const src=PROJECTS[idx].src;
+
+    /* test if image exists */
+    const probe=new Image();
+    probe.onload=()=>{
+      ci.src=src; ci.style.display='block'; cp.style.opacity='0';
+      eh.style.display='flex';
+    };
+    probe.onerror=()=>{
+      ci.style.display='none'; cp.style.opacity='1';
+      eh.style.display='none';
+    };
+    probe.src=src;
+
+    oi.classList.add('show');
+  },220);
+
+  document.querySelectorAll('.o-dot-ctrl').forEach((d,i)=>d.classList.toggle('active',i===idx));
+}
+
+function easeCubic(t){return t<.5?4*t*t*t:(t-1)*(2*t-2)*(2*t-2)+1;}
+
+function animateTo(){
+  if(animID){cancelAnimationFrame(animID);animID=null;}
+  const start=rotAngle, end=targetRot, dur=650, t0=performance.now();
+  function step(now){
+    const p=Math.min((now-t0)/dur,1);
+    rotAngle=start+(end-start)*easeCubic(p);
+    posNodes();
+    if(p<1){animID=requestAnimationFrame(step);}
+    else{rotAngle=end;animID=null;updateInfo();}
+  }
+  animID=requestAnimationFrame(step);
+  updateInfo();
+}
+
+function rotateTo(idx){
+  const n=PROJECTS.length, step=(Math.PI*2)/n;
+  const curr=((-rotAngle%(Math.PI*2))+(Math.PI*2))%(Math.PI*2);
+  let dest=idx*step, delta=dest-curr;
+  if(delta>Math.PI)delta-=Math.PI*2;
+  if(delta<-Math.PI)delta+=Math.PI*2;
+  targetRot=rotAngle-delta;
+  animateTo();
+}
+
+function startAuto(){
+  if(autoT)clearInterval(autoT);
+  autoT=setInterval(()=>{if(!animID){const n=PROJECTS.length;rotateTo((getActive()+1)%n);}},3800);
+}
+function stopAuto(){if(autoT){clearInterval(autoT);autoT=null;}}
+
+/* init dots */
+const dotsEl=document.getElementById('oDots');
+PROJECTS.forEach((_,i)=>{
+  const d=document.createElement('div');
+  d.className='o-dot-ctrl'+(i===0?' active':'');
+  d.addEventListener('click',()=>{stopAuto();rotateTo(i);setTimeout(startAuto,5000);});
+  dotsEl.appendChild(d);
+});
+
+document.getElementById('oPrev').addEventListener('click',()=>{
+  stopAuto();const n=PROJECTS.length;rotateTo((getActive()-1+n)%n);setTimeout(startAuto,5000);
+});
+document.getElementById('oNext').addEventListener('click',()=>{
+  stopAuto();rotateTo((getActive()+1)%PROJECTS.length);setTimeout(startAuto,5000);
+});
+
+/* click node → jump to it */
+document.querySelectorAll('.p-node').forEach(node=>{
+  node.addEventListener('click',()=>{
+    stopAuto();rotateTo(parseInt(node.dataset.i));setTimeout(startAuto,5000);
+  });
+});
+
+/* click center → open lightbox */
+document.getElementById('orbitCenter').addEventListener('click',()=>{
+  const idx=getActive();
+  const src=PROJECTS[idx].src;
+  const ci=document.getElementById('centerImg');
+  if(ci.style.display!=='none'&&ci.src&&!ci.src.endsWith('undefined')){
+    openLightbox(src,PROJECTS[idx].title+' — '+PROJECTS[idx].role);
+  }
+});
+
+/* wheel rotate */
+let wCool=false;
+document.getElementById('orbitScene').addEventListener('wheel',e=>{
+  e.preventDefault();
+  if(wCool||animID)return;
+  wCool=true; stopAuto();
+  const n=PROJECTS.length, dir=e.deltaY>0?1:-1;
+  rotateTo((getActive()+dir+n)%n);
+  setTimeout(()=>{wCool=false;},720);
+  setTimeout(startAuto,5000);
+},{passive:false});
+
+/* touch swipe */
+let tsX=0;
+document.getElementById('orbitScene').addEventListener('touchstart',e=>{tsX=e.touches[0].clientX;});
+document.getElementById('orbitScene').addEventListener('touchend',e=>{
+  const d=tsX-e.changedTouches[0].clientX;
+  if(Math.abs(d)>40){
+    const n=PROJECTS.length, dir=d>0?1:-1;
+    stopAuto();rotateTo((getActive()+dir+n)%n);setTimeout(startAuto,5000);
+  }
+});
+
+window.addEventListener('resize',posNodes);
+posNodes();updateInfo();setTimeout(startAuto,2000);
+
+/* ── MOBILE NAV ── */
+const navToggle=document.getElementById('navToggle');
+const navLinks=document.getElementById('navLinks');
+navToggle.addEventListener('click',()=>{
+  const open=navLinks.style.display==='flex';
+  if(open){navLinks.style.display='none';}
+  else{navLinks.style.cssText='display:flex;flex-direction:column;position:fixed;top:68px;left:0;right:0;background:var(--bg2);padding:28px 24px;gap:28px;border-bottom:1px solid var(--border);z-index:999;';}
+});
+navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{navLinks.style.display='none';}));
+</script>
+</body>
+</html>
